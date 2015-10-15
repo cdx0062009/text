@@ -13,4 +13,30 @@
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
+    #import "EnumDefinition.h"
 #endif
+
+//颜色
+#define COLOR(R, G, B, A) [UIColor colorWithRed:R/255.0 green:G/255.0 blue:B/255.0 alpha:A]
+//尺寸
+#define ScreenHeight [UIScreen mainScreen].bounds.size.height
+#define ScreenWidth [UIScreen mainScreen].bounds.size.width
+//系统版本
+#define IOS_VERSION [[[UIDevice currentDevice] systemVersion] floatValue]
+//打印
+#ifdef DEBUG
+#	define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#else
+#	define DLog(...)
+#endif
+
+//测试和正式接口URL地址
+#ifdef DEBUG
+#define REG_URL [NSString stringWithFormat:@"www.baidu.com"]
+#else
+#define REG_URL [NSString stringWithFormat:@"baidu.com"]
+#endif
+
+//关键字定义
+#define NPushNotification @"notification"
+

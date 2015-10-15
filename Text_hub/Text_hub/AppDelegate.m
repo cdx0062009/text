@@ -7,15 +7,31 @@
 //
 
 #import "AppDelegate.h"
+#import "FirstViewController.h"
+#import "SecondViewController.h"
+#import "NTabBarController.h"
+#import "AppDelegate+OtherTransaction.h"
 
 @implementation AppDelegate
+
+void uncaughtExceptionHandler(NSException*exception){
+    DLog("CRASH: %@", exception);
+    DLog("Stack Trace: %@",[exception callStackSymbols]);
+    // Internal error reporting
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
+    //设置根视图
+    NTabBarController * tabController = [[NTabBarController alloc]init];
+    [tabController setUpTabBarWithViewControllers:@[[FirstViewController new],[SecondViewController new]] titles:@[@"首页",@"优惠"] normalImage:@[[UIImage imageNamed:@"pg_home_up"],[UIImage imageNamed:@"pg_favorable_up"]] selectedImage:@[[UIImage imageNamed:@"pg_home_down"],[UIImage imageNamed:@"pg_favorable_down"]]];
+    tabController.tabBar.tintColor = COLOR(255.0, 35.0, 17.0, 1.0);
+    self.window.rootViewController = tabController;
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    [self PushNotificationApplication:application didFinishLaunchingWithOptions:launchOptions];
     return YES;
 }
 
@@ -34,6 +50,7 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
