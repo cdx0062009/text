@@ -91,7 +91,7 @@
     _pageControl.numberOfPages = arrayList.count;
     _pageControl.currentPage = 0; //初始页码为0
     _pageControl.tintColor = [UIColor whiteColor];
-    //[containerView addSubview:_pageControl];
+    [containerView addSubview:_pageControl];
     
     _imageNum = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, CGRectGetWidth(containerView.frame)-20, 20)];
     _imageNum.font = [UIFont boldSystemFontOfSize:15];
@@ -146,31 +146,15 @@
                 }
                 
                 //更改请求状态
-                [_imagesDownloadQueue replaceObjectAtIndex:pageInDownloadQueue withObject:[NSMutableArray arrayWithObject:[NSMutableDictionary dictionaryWithDictionary:@{@"isDown": [NSNumber numberWithBool:YES],@"currentImage": [_imagesDownloadQueue[pageInDownloadQueue] valueForKey:@"currentImage"],@"downURL": [_imagesDownloadQueue[pageInDownloadQueue] valueForKey:@"downURL"]}]]];
+                [_imagesDownloadQueue replaceObjectAtIndex:pageInDownloadQueue withObject:[NSMutableDictionary dictionaryWithDictionary:@{@"isDown": [NSNumber numberWithBool:YES],@"currentImage": [_imagesDownloadQueue[pageInDownloadQueue] valueForKey:@"currentImage"],@"downURL": [_imagesDownloadQueue[pageInDownloadQueue] valueForKey:@"downURL"]}]];
                 //请求图片
-                if ([[curImages[i] valueForKey:@"downURL"] isKindOfClass:[NSString class]]) {
-                    NSURLRequest * request = [[NSURLRequest alloc]initWithURL:[NSURL URLWithString:[curImages[i] valueForKey:@"downURL"]] cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:20];
-                    
-                    __block typeof(self) weakSelf = self;
-                    [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc]init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            if (data)
-                            {
-                                //如果请求已经过去，则不显示
-                                if (imageView.superview) {
-                                    imageView.image = [UIImage imageWithData:data];
-                                }
-                                //保存图片
-                                
-                                [weakSelf.imagesDownloadQueue replaceObjectAtIndex:pageInDownloadQueue withObject:[NSMutableArray arrayWithObject:[NSMutableDictionary dictionaryWithDictionary:@{@"isDown": [NSNumber numberWithBool:YES],@"currentImage":[UIImage imageWithData:data],@"downURL": [weakSelf.imagesDownloadQueue[pageInDownloadQueue] valueForKey:@"downURL"]}]]];
-                            }
-                            else
-                            {
-                                //请求失败，则从新请求
-                                [weakSelf.imagesDownloadQueue replaceObjectAtIndex:pageInDownloadQueue withObject:[NSMutableArray arrayWithObject:[NSMutableDictionary dictionaryWithDictionary:@{@"isDown": [NSNumber numberWithBool:NO],@"currentImage": [weakSelf.imagesDownloadQueue[pageInDownloadQueue] valueForKey:@"currentImage"],@"downURL": [weakSelf.imagesDownloadQueue[pageInDownloadQueue] valueForKey:@"downURL"]}]]];
-                            }
-                        });
-                    }];
+                if ([[curImages[i] valueForKey:@"downURL"] isKindOfClass:[NSString class]])
+                {
+                    HttpApi * http = [[HttpApi alloc]init];
+                    http.delegate = self;
+                    http.isHideIndicator = YES;
+                    http.tag = [NSString stringWithFormat:@"%d",pageInDownloadQueue];
+                    [http httpGet:[curImages[i] valueForKey:@"downURL"] withParams:nil withTimeout:30];
                 }
             }
         }
@@ -309,11 +293,22 @@
     }
 }
 
-- (void)dealloc
+#pragma mark - http delegate
+- (void)apiDidFinishLoading:(NSData *)data withTag:(NSObject *)tag
 {
-    self.delegate = nil;
-    _imagesDownloadQueue = nil;
-    imagesArray = nil;
-    curImages = nil;
+    if (data.length > 0)
+    {
+        [self.imagesDownloadQueue replaceObjectAtIndex:[(NSString *)tag intValue]withObject:[NSMutableDictionary dictionaryWithDictionary:@{@"isDown": [NSNumber numberWithBool:YES],@"currentImage":[UIImage imageWithData:data],@"downURL": [self.imagesDownloadQueue[[(NSString *)tag intValue]] valueForKey:@"downURL"]}]];
+    }
+    else
+    {
+        [self.imagesDownloadQueue replaceObjectAtIndex:[(NSString *)tag intValue]withObject:[NSMutableDictionary dictionaryWithDictionary:@{@"isDown": [NSNumber numberWithBool:NO],@"currentImage": [self.imagesDownloadQueue[[(NSString *)tag intValue]] valueForKey:@"currentImage"],@"downURL": [self.imagesDownloadQueue[[(NSString *)tag intValue]] valueForKey:@"downURL"]}]];
+    }
 }
+- (void)apiDidFail:(NSError *)error withTag:(NSObject *)tag
+{
+    [self.imagesDownloadQueue replaceObjectAtIndex:[(NSString *)tag intValue]withObject:[NSMutableDictionary dictionaryWithDictionary:@{@"isDown": [NSNumber numberWithBool:NO],@"currentImage": [self.imagesDownloadQueue[[(NSString *)tag intValue]] valueForKey:@"currentImage"],@"downURL": [self.imagesDownloadQueue[[(NSString *)tag intValue]] valueForKey:@"downURL"]}]];
+}
+
+
 @end

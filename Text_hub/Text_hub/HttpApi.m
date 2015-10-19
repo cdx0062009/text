@@ -239,8 +239,8 @@
     [self stop];
     if (!self.isHideIndicator)
     {
-        self.indicator = [[NProgressIndicator alloc]init];
-        [self.indicator show];
+        self.toast = [[NetWorkToast alloc]init];
+        [self.toast showWaittingIndicator];
     }
     
     NSString * bodyStr = [params JSONString];
@@ -287,7 +287,7 @@
 
 - (void)onTimeout:(NSTimer *)timer
 {
-    [self.indicator close];
+    [self.toast closeAllToast];
     if (self.connection) {
         [self.connection cancel];
         self.connection = nil;
@@ -313,6 +313,24 @@
 
 #pragma mark - NSURLConnectionDataDelegate
 
+- (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace {
+    
+    return [protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust];
+    
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
+    
+    if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]){
+        
+        [[challenge sender]  useCredential:[NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust] forAuthenticationChallenge:challenge];
+        
+        [[challenge sender]  continueWithoutCredentialForAuthenticationChallenge: challenge];
+        
+    }
+    
+}
+
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
     self.receiveData = [NSMutableData data];
@@ -325,7 +343,7 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    [self.indicator close];
+    [self.toast closeAllToast];
     if (self.timeoutTimer) {
         [self.timeoutTimer invalidate];
         self.timeoutTimer = nil;
@@ -340,7 +358,7 @@
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    [self.indicator close];
+    [self.toast closeAllToast];
     if (self.timeoutTimer) {
         [self.timeoutTimer invalidate];
         self.timeoutTimer = nil;

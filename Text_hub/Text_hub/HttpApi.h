@@ -40,7 +40,7 @@
 - (void)httpPostData:(NSString *)url withParams:(NSDictionary *)params withData:(NSDictionary *)datas withTimeout:(NSTimeInterval)timeout;
 
 /**
- *  金虎接口专用
+ *  接口专用
  *
  *  @param url     url地址
  *  @param params  接入参数

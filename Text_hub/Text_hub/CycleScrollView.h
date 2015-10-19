@@ -7,14 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "HttpApi.h"
 typedef enum {
     CycleDirectionPortait,          // 垂直滚动
     CycleDirectionLandscape         // 水平滚动
 }CycleDirection;
 @protocol CycleScrollViewDelegate;
 
-@interface CycleScrollView : UIView <UIScrollViewDelegate> {
+@interface CycleScrollView : UIView <UIScrollViewDelegate,HttpApiDelegate> {
     
     UIScrollView *scrollView;
     UIImageView *curImageView;
@@ -27,8 +27,8 @@ typedef enum {
     NSArray *imagesArray;               // 存放所有需要滚动的图片 UIImage
     NSMutableArray *curImages;          // 存放当前滚动的三张图片
     
-    NSTimer *timer;                            // 定时器
-         // 下载图片队列
+    NSTimer *timer;                     // 定时器
+    
 }
 @property (nonatomic, strong) UIPageControl *pageControl;
 @property (nonatomic, strong) UILabel *imageNum;
@@ -41,7 +41,6 @@ typedef enum {
 - (id)initWithFrame:(CGRect)frame cycleDirection:(CycleDirection)direction downloadURL:(NSArray *)downloadURLArray;
 - (NSArray *)getDisplayImagesWithCurpage:(int)page;
 - (void)refreshScrollView;
-- (void)setCycleDirection:(CycleDirection)direction downloadURL:(NSArray *)downloadURLArray;
 /**
  *  开始显示
  */

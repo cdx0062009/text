@@ -18,16 +18,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
+    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-- (void)setCloses
-{
-    //[toast finishWaittingShowFailToast:@"这个错误信息好长好长好长好长好长好长好长好长好长好长好长好长好长好长好长好长好长好长好长好长"];
-    [toast finishWaittingShowSuccessToast];
 }
 
 

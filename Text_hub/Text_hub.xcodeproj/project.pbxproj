@@ -86,7 +86,6 @@
 		3E495A941BCCF10600981AFC /* ApiResponseBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E495A891BCCF10600981AFC /* ApiResponseBase.m */; settings = {ASSET_TAGS = (); }; };
 		3E495A951BCCF10600981AFC /* ApiResponsePublic.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E495A8B1BCCF10600981AFC /* ApiResponsePublic.m */; settings = {ASSET_TAGS = (); }; };
 		3E495A961BCCF10600981AFC /* HttpApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E495A8D1BCCF10600981AFC /* HttpApi.m */; settings = {ASSET_TAGS = (); }; };
-		3E495A971BCCF10600981AFC /* NProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E495A8F1BCCF10600981AFC /* NProgressIndicator.m */; settings = {ASSET_TAGS = (); }; };
 		3E495A981BCCF10600981AFC /* NSString+Replacing.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E495A911BCCF10600981AFC /* NSString+Replacing.m */; settings = {ASSET_TAGS = (); }; };
 		3E495A9B1BCCF7AC00981AFC /* NetWorkToast.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E495A9A1BCCF7AC00981AFC /* NetWorkToast.m */; settings = {ASSET_TAGS = (); }; };
 		3E495A9E1BCCFB8700981AFC /* Toast+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E495A9D1BCCFB8700981AFC /* Toast+UIView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -301,8 +300,6 @@
 		3E495A8B1BCCF10600981AFC /* ApiResponsePublic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApiResponsePublic.m; sourceTree = "<group>"; };
 		3E495A8C1BCCF10600981AFC /* HttpApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpApi.h; sourceTree = "<group>"; };
 		3E495A8D1BCCF10600981AFC /* HttpApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpApi.m; sourceTree = "<group>"; };
-		3E495A8E1BCCF10600981AFC /* NProgressIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NProgressIndicator.h; sourceTree = "<group>"; };
-		3E495A8F1BCCF10600981AFC /* NProgressIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NProgressIndicator.m; sourceTree = "<group>"; };
 		3E495A901BCCF10600981AFC /* NSString+Replacing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Replacing.h"; sourceTree = "<group>"; };
 		3E495A911BCCF10600981AFC /* NSString+Replacing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Replacing.m"; sourceTree = "<group>"; };
 		3E495A991BCCF7AC00981AFC /* NetWorkToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetWorkToast.h; sourceTree = "<group>"; };
@@ -723,8 +720,6 @@
 				3E495A8B1BCCF10600981AFC /* ApiResponsePublic.m */,
 				3E495A8C1BCCF10600981AFC /* HttpApi.h */,
 				3E495A8D1BCCF10600981AFC /* HttpApi.m */,
-				3E495A8E1BCCF10600981AFC /* NProgressIndicator.h */,
-				3E495A8F1BCCF10600981AFC /* NProgressIndicator.m */,
 				3E495A901BCCF10600981AFC /* NSString+Replacing.h */,
 				3E495A911BCCF10600981AFC /* NSString+Replacing.m */,
 				3E495A991BCCF7AC00981AFC /* NetWorkToast.h */,
@@ -961,7 +956,6 @@
 				3E495A3B1BCCAC5600981AFC /* UIScrollView+MJExtension.m in Sources */,
 				3E495A751BCCE07700981AFC /* JSONValueTransformer.m in Sources */,
 				3E495A361BCCAC5600981AFC /* MJRefreshGifHeader.m in Sources */,
-				3E495A971BCCF10600981AFC /* NProgressIndicator.m in Sources */,
 				3E4959F71BCCAB4A00981AFC /* UIButton+WebCache.m in Sources */,
 				3E495A381BCCAC5600981AFC /* MJRefreshStateHeader.m in Sources */,
 				3E495A921BCCF10600981AFC /* ApiRequestBase.m in Sources */,
